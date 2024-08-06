@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Interactiva</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .calculator {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .calculator-display {
+            font-size: 2em;
+            height: 70px;
+            text-align: right;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .calculator-button {
+            width: 75px;
+            height: 75px;
+            font-size: 1.5em;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="calculator bg-light">
+            <div id="display" class="calculator-display">0</div>
+            <div class="row">
+                <button class="calculator-button btn btn-secondary" onclick="appendNumber('7')">7</button>
+                <button class="calculator-button btn btn-secondary" onclick="appendNumber('8')">8</button>
+                <button class="calculator-button btn btn-secondary" onclick="appendNumber('9')">9</button>
+                <button class="calculator-button btn btn-warning" onclick="appendOperator('/')">/</button>
+            </div>
+            <div class="row">
+                <button class="calculator-button btn btn-secondary" onclick="appendNumber('4')">4</button>
+                <button class="calculator-button btn btn-secondary" onclick="appendNumber('5')">5</button>
+                <button class="calculator-button btn btn-secondary" onclick="appendNumber('6')">6</button>
+                <button class="calculator-button btn btn-warning" onclick="appendOperator('*')">*</button>
+            </div>
+            <div class="row">
+                <button class="calculator-button btn btn-secondary" onclick="appendNumber('1')">1</button>
+                <button class="calculator-button btn btn-secondary" onclick="appendNumber('2')">2</button>
+                <button class="calculator-button btn btn-secondary" onclick="appendNumber('3')">3</button>
+                <button class="calculator-button btn btn-warning" onclick="appendOperator('-')">-</button>
+            </div>
+            <div class="row">
+                <button class="calculator-button btn btn-secondary" onclick="appendNumber('0')">0</button>
+                <button class="calculator-button btn btn-secondary" onclick="appendNumber('.')">.</button>
+                <button class="calculator-button btn btn-danger" onclick="clearDisplay()">C</button>
+                <button class="calculator-button btn btn-warning" onclick="appendOperator('+')">+</button>
+            </div>
+            <div class="row">
+                <button class="calculator-button btn btn-primary btn-block" onclick="calculate()">=</button>
+            </div>
+        </div>
+        {% if result %}
+            <div class="alert alert-info mt-4">
+                <strong>Resultado:</strong> {{ result }}
+            </div>
+        {% endif %}
+    </div>
+    <form id="calc-form" method="POST" style="display:none;">
+        {% csrf_token %}
+        <input type="hidden" name="expression" id="expression">
+    </form>
+    <script>
+        let display = document.getElementById('display');
+        let expression = '';
+
+        function appendNumber(number) {
+            if (display.innerText === '0') {
+                display.innerText = number;
+            } else {
+                display.innerText += number;
+            }
+            expression += number;
+        }
+
+        function appendOperator(operator) {
+            display.innerText += ' ' + operator + ' ';
+            expression += operator;
+        }
+
+        function clearDisplay() {
+            display.innerText = '0';
+            expression = '';
+        }
+
+        function calculate() {
+            document.getElementById('expression').value = expression;
+            document.getElementById('calc-form').submit();
+        }
+    </script>
+</body>
+</html>
