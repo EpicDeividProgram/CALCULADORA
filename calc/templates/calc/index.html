@@ -66,8 +66,19 @@
         {% if result %}
             <div class="alert alert-info mt-4">
                 <strong>Resultado:</strong> {{ result }}
+                <form method="POST" action="{% url 'save_result' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="expression" value="{{ expression }}">
+                    <input type="hidden" name="result" value="{{ result }}">
+                    <button type="submit" class="btn btn-success mt-2">Guardar Resultado</button>
+                </form>
             </div>
         {% endif %}
+
+        <div class="mt-4">
+            <a class="btn btn-primary" href="{% url 'get_results' %}">Ver Resultados Guardados</a>
+            <a class="btn btn-info" href="{% url 'most_used_operation' %}">Mostrar Operaciones Más Usadas</a>
+        </div>
     </div>
     <form id="calc-form" method="POST" style="display:none;">
         {% csrf_token %}
