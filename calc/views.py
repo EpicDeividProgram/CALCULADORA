@@ -30,6 +30,17 @@ def save_result(request):
 # Función para obtener los resultados almacenados en la base de datos
 def get_results(request):
     results = CalculationResult.objects.all()
+     
+    operation_type = request.GET.get('operation_type')
+    if operation_type == 'suma':
+        results = CalculationResult.objects.filter(expression__contains='+')
+    elif operation_type == 'resta':
+        results = CalculationResult.objects.filter(expression__contains='-')
+    elif operation_type == 'multiplicacion':
+        results = CalculationResult.objects.filter(expression__contains='*')
+    elif operation_type == 'division':
+        results = CalculationResult.objects.filter(expression__contains='/')
+    
     context = {'results': results}
     return render(request, 'calc/results.html', context)
 

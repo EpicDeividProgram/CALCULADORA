@@ -9,6 +9,17 @@
 <body>
     <div class="container mt-5">
         <h2>Resultados Guardados</h2>
+        
+        <!-- Botones de Filtrado -->
+        <div class="btn-group mb-3" role="group">
+            <button class="btn btn-primary" onclick="filterResults('')">Mostrar Todos</button>
+            <button class="btn btn-success" onclick="filterResults('suma')">Mostrar Sumas</button>
+            <button class="btn btn-danger" onclick="filterResults('resta')">Mostrar Restas</button>
+            <button class="btn btn-warning" onclick="filterResults('multiplicacion')">Mostrar Multiplicaciones</button>
+            <button class="btn btn-info" onclick="filterResults('division')">Mostrar Divisiones</button>
+        </div>
+
+        <!-- Lista de Resultados -->
         <ul class="list-group">
             {% for result in results %}
             <li class="list-group-item">
@@ -19,8 +30,16 @@
         </ul>
         <button class="btn btn-secondary mt-4" onclick="window.location.href='/'">Volver a la Calculadora</button>
     </div>
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function filterResults(type) {
+            // Redireccionar la página con el parámetro de tipo de operación
+            window.location.href = `/results/?operation_type=${type}`;
+        }
+    </script>
 </body>
 </html>
